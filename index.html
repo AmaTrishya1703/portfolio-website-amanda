@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <title>Amanda Trishya Aulia — Portfolio</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;        
+    }
+
+    /* ── Background ilustrasi full screen ── */
+    #scene {
+      position: relative;
+      width: 100%;
+    }
+
+    #bg {
+      top: 0; left: 0;
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ── Area tombol — ditumpuk di atas bg, di zona meja (bawah 35%) ── */
+    #nav-area {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40%;   /* zona meja */
+      pointer-events: none; /* biar klik tembus ke bg, kecuali tombol */
+    }
+
+    /* Tiap tombol diposisikan absolut di dalam nav-area */
+    .btn-wrap {
+      position: absolute;
+      pointer-events: all;
+      cursor: pointer;
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+
+    .btn-wrap:hover {
+      transform: translateY(-6px) scale(1.04);
+      filter: brightness(1.05);
+    }
+
+    .btn-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Posisi & ukuran masing-masing tombol (% dari lebar/tinggi layar) */
+    /* Profile — kiri */
+    #btn-profile {
+      left: 5%;
+      bottom: 40%;
+      width: 280px;
+    }
+
+    /* GitHub — tengah, sedikit lebih rendah */
+    #btn-github {
+      left: 45%;
+      transform: translateX(-50%);
+      bottom: 35%;
+      width: 560px;
+    }
+
+    #btn-github:hover {
+      transform: translateX(-50%) translateY(-6px) scale(1.04);
+    }
+
+    /* Design — kanan */
+    #btn-design {
+      right: 0%;
+      bottom: 35%;
+      width: 450px;
+    }
+
+    /* ── Overlay + Profile popup ── */
+    #overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      z-index: 200;
+    }
+
+    #profile-popup {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      max-width: 480px;
+      background: #fff;
+      border-radius: 24px;
+      padding: 36px 32px 44px;
+      z-index: 300;
+      animation: popIn 0.25s ease;
+    }
+
+    @keyframes popIn {
+      from { transform: translate(-50%, -48%); opacity: 0; }
+      to   { transform: translate(-50%, -50%);   opacity: 1; }
+    }
+
+    .popup-close {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 26px;
+      cursor: pointer;
+      color: #aaa;
+      line-height: 1;
+    }
+
+    /* Dua kolom: foto | info */
+    .popup-inner {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+
+    .popup-photo-wrap {
+      flex-shrink: 0;
+      width: 110px;    /* ← ubah ukuran foto di sini */
+      height: 110px;
+      border-radius: 50%;
+      background: #eee;
+      border: 1.5px dashed #bbb;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: #999;
+      overflow: hidden;
+    }
+
+    .popup-photo-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+ 
+    /* Kolom kanan — info */
+    .popup-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .popup-name {
+      font-size: 20px;
+      font-weight: 700;
+      color: #111;
+      margin-bottom: 6px;
+    }
+
+    .popup-skills {
+      font-size: 13px;
+      color: #777;
+      margin-bottom: 18px;
+      line-height: 1.6;
+    }
+
+    .popup-contact {
+      border-top: 1px solid #eee;
+      padding-top: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .popup-contact a {
+      color: #3b82f6;
+      text-decoration: none;
+      word-break: break-all;
+    }
+
+    .popup-contact a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+<div id="scene">
+
+  <!-- Background ilustrasi -->
+  <img id="bg" src="home.png" alt="Ilustrasi ruangan portfolio Amanda" />
+
+  <!-- Area tombol tersebar di atas meja -->
+  <div id="nav-area">
+
+    <!-- Tombol Profile (buka popup) -->
+    <div class="btn-wrap" id="btn-profile" onclick="openProfile()" role="button" tabindex="0" aria-label="Buka profil">
+      <img src="profile-button.png" alt="Profile" />
+    </div>
+
+    <!-- Tombol GitHub (hyperlink) -->
+    <a class="btn-wrap" id="btn-github" href="https://github.com/AmaTrishya1703" target="_blank" rel="noopener" aria-label="GitHub Repositories">
+      <img src="github-button.png" alt="GitHub Repositories" />
+    </a>
+
+    <!-- Tombol Design & Illust (hyperlink) -->
+    <a class="btn-wrap" id="btn-design" href="https://drive.google.com/drive/u/1/folders/1Oo00gnD24E0Qw_yfZR8azxyFSzHZKGEa" target="_blank" rel="noopener" aria-label="Design and Illustration">
+      <img src="design-button.png" alt="Design and Illust." />
+    </a>
+
+  </div>
+
+</div>
+
+<!-- Overlay gelap saat popup terbuka -->
+<div id="overlay" onclick="closeProfile()"></div>
+
+<!-- Popup profil -->
+<div id="profile-popup" role="dialog" aria-modal="true" aria-label="Profil Amanda">
+  <button class="popup-close" onclick="closeProfile()" aria-label="Tutup">&times;</button>
+  <div class="popup-inner">
+    <div class="popup-photo-wrap">
+      <img src="fotoku.jpg" alt="Foto profil Amanda">
+    </div>
+
+    <div class="popup-info">
+      <p class="popup-name">Amanda Trishya Aulia</p>
+
+      <p class="popup-skills">
+        Graphic Designer · Illustrator
+        <!-- Tulis keahlianmu di sini -->
+      </p>
+
+      <div class="popup-contact">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+        </svg>
+        <!-- Ganti dengan emailmu -->
+        <a href="mailto:18224020@std.stei.itb.ac.id">18224020@std.stei.itb.ac.id</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openProfile() {
+    document.getElementById('profile-popup').style.display = 'block';
+    document.getElementById('overlay').style.display = 'block';
+  }
+
+  function closeProfile() {
+    document.getElementById('profile-popup').style.display = 'none';
+    document.getElementById('overlay').style.display = 'none';
+  }
+
+  // Keyboard: Enter/Space buka profile, Escape tutup
+  document.getElementById('btn-profile').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') openProfile();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeProfile();
+  });
+</script>
+
+</body>
+</html>
