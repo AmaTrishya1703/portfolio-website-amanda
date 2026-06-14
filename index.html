@@ -28,17 +28,16 @@
       display: block;
     }
 
-    /* ── Area tombol — ditumpuk di atas bg, di zona meja (bawah 35%) ── */
+    /* ── Area tombol ── */
     #nav-area {
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
-      height: 40%;   /* zona meja */
-      pointer-events: none; /* biar klik tembus ke bg, kecuali tombol */
+      height: 40%;   
+      pointer-events: none; 
     }
 
-    /* Tiap tombol diposisikan absolut di dalam nav-area */
     .btn-wrap {
       position: absolute;
       pointer-events: all;
@@ -58,7 +57,6 @@
       display: block;
     }
 
-    /* Posisi & ukuran masing-masing tombol (% dari lebar/tinggi layar) */
     /* Profile — kiri */
     #btn-profile {
       left: 5%;
@@ -66,7 +64,7 @@
       width: 280px;
     }
 
-    /* GitHub — tengah, sedikit lebih rendah */
+    /* GitHub — tengah */
     #btn-github {
       left: 45%;
       transform: translateX(-50%);
@@ -136,7 +134,7 @@
 
     .popup-photo-wrap {
       flex-shrink: 0;
-      width: 110px;    /* ← ubah ukuran foto di sini */
+      width: 110px;    
       height: 110px;
       border-radius: 50%;
       background: #eee;
@@ -199,23 +197,18 @@
 
 <div id="scene">
 
-  <!-- Background ilustrasi -->
   <img id="bg" src="home.png" alt="Ilustrasi ruangan portfolio Amanda" />
 
-  <!-- Area tombol tersebar di atas meja -->
   <div id="nav-area">
 
-    <!-- Tombol Profile (buka popup) -->
     <div class="btn-wrap" id="btn-profile" onclick="openProfile()" role="button" tabindex="0" aria-label="Buka profil">
       <img src="profile-button.png" alt="Profile" />
     </div>
 
-    <!-- Tombol GitHub (hyperlink) -->
     <a class="btn-wrap" id="btn-github" href="https://github.com/AmaTrishya1703" target="_blank" rel="noopener" aria-label="GitHub Repositories">
       <img src="github-button.png" alt="GitHub Repositories" />
     </a>
 
-    <!-- Tombol Design & Illust (hyperlink) -->
     <a class="btn-wrap" id="btn-design" href="https://drive.google.com/drive/u/1/folders/1Oo00gnD24E0Qw_yfZR8azxyFSzHZKGEa" target="_blank" rel="noopener" aria-label="Design and Illustration">
       <img src="design-button.png" alt="Design and Illust." />
     </a>
@@ -224,10 +217,8 @@
 
 </div>
 
-<!-- Overlay gelap saat popup terbuka -->
 <div id="overlay" onclick="closeProfile()"></div>
 
-<!-- Popup profil -->
 <div id="profile-popup" role="dialog" aria-modal="true" aria-label="Profil Amanda">
   <button class="popup-close" onclick="closeProfile()" aria-label="Tutup">&times;</button>
   <div class="popup-inner">
@@ -240,7 +231,6 @@
 
       <p class="popup-skills">
         Graphic Designer · Illustrator
-        <!-- Tulis keahlianmu di sini -->
       </p>
 
       <div class="popup-contact">
@@ -250,7 +240,6 @@
           <rect x="2" y="4" width="20" height="16" rx="2"/>
           <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
         </svg>
-        <!-- Ganti dengan emailmu -->
         <a href="mailto:18224020@std.stei.itb.ac.id">18224020@std.stei.itb.ac.id</a>
       </div>
     </div>
@@ -268,7 +257,6 @@
     document.getElementById('overlay').style.display = 'none';
   }
 
-  // Keyboard: Enter/Space buka profile, Escape tutup
   document.getElementById('btn-profile').addEventListener('keydown', function(e) {
     if (e.key === 'Enter' || e.key === ' ') openProfile();
   });
